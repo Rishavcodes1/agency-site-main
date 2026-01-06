@@ -81,7 +81,7 @@ const CustomerVendorPortalsPage = () => {
 
     return (
         <div>
-            <MainSection leftSection={left} rightSection={right} />
+            <MainSection text='Customer & Vendor Portals' leftSection={left} rightSection={right} />
             
             <Section className='overflow-visible' id='process'>
                 <Container>

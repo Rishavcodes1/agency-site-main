@@ -217,14 +217,14 @@ const FirstClient = ({ variant = "black" }: { variant?: "white" | "black" }) => 
                                     </Button>
                                 </NavLink>
 
-                                <NavLink to="/services">
+                                {/* <NavLink to="/services">
                                     <Button
                                         variant="outline"
                                         className={`px-8 py-6 ${bgCard} ${isBlack ? 'text-black' : 'text-white'} ${borderMedium} font-semibold text-base ${bgIconHover} ${borderHoverStrong} transition-all duration-300 rounded-full cursor-pointer`}
                                     >
                                         Explore Our Services
                                     </Button>
-                                </NavLink>
+                                </NavLink> */}
                             </motion.div>
 
                             {/* Trust Badges */}

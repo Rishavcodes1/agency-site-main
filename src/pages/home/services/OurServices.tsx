@@ -3,16 +3,23 @@ import { HelpingHand } from 'lucide-react';
 import Section from "@/components/layout/Section"
 
 
-import DigitalPresenceAnimation from './animation/digital-presence';
-import DigitalSolutionAnimation from './animation/digital-solution';
-import CloudInfrastructureAnimation from './animation/cloud-infrastructure';
-import CreativityAnimation from './animation/creativity';
-import AutomationIntegrationAnimation from './animation/automation-integration';
+// import DigitalPresenceAnimation from './animation/digital-presence';
+// import DigitalSolutionAnimation from './animation/digital-solution';
+// import CloudInfrastructureAnimation from './animation/cloud-infrastructure';
+// import CreativityAnimation from './animation/creativity';
+// import AutomationIntegrationAnimation from './animation/automation-integration';
 import { servicesList } from '@/constants/serviceList';
 import Container from '@/components/layout/Container';
 import { NavLink } from 'react-router';
 import SectionHeader from '@/components/shared/SectionHeader';
 import type { SectionHeaderProps } from "@/components/shared/SectionHeader"
+
+
+import crm from "@/assets/crm.jpg"
+import cloud from "@/assets/cloudInfra.avif"
+import graphic from "@/assets/graphicDesign.avif"
+import social from "@/assets/socialMediamanagement.avif"
+import web from "@/assets/webDev.avif"
 
 
 const OurServices: React.FC = () => {
@@ -26,33 +33,41 @@ const OurServices: React.FC = () => {
         | "content-creativity-animation"
         | "content-automation-integration-animation";
 
-    const content: Record<ContentKey, React.ReactNode> = {
-        "content-cloud-infrastruture-animation": <CloudInfrastructureAnimation />,
-        "content-digital-solutions-animation": <DigitalSolutionAnimation />,
-        "content-digital-presence-animation": <DigitalPresenceAnimation />,
-        "content-creativity-animation": <CreativityAnimation />,
-        "content-automation-integration-animation": <AutomationIntegrationAnimation />,
+    // const content: Record<ContentKey, React.ReactNode> = {
+    //     "content-cloud-infrastruture-animation": <CloudInfrastructureAnimation />,
+    //     "content-digital-solutions-animation": <DigitalSolutionAnimation />,
+    //     "content-digital-presence-animation": <DigitalPresenceAnimation />,
+    //     "content-creativity-animation": <CreativityAnimation />,
+    //     "content-automation-integration-animation": <AutomationIntegrationAnimation />,
+    // }
+    const content: Record<ContentKey, string> = {
+        "content-cloud-infrastruture-animation": cloud,
+        "content-digital-solutions-animation": web,
+        "content-digital-presence-animation": social,
+        "content-creativity-animation": graphic,
+        "content-automation-integration-animation": crm,
     }
 
 
     useEffect(() => {
         const handleScroll = (): void => {
-            const scrollPosition = window.scrollY + window.innerHeight / 2;
+            const viewportMiddle = window.innerHeight / 2;
 
             sectionRefs.current.forEach((section, index) => {
                 if (!section) return;
 
-                const sectionTop = section.offsetTop;
-                const sectionBottom = sectionTop + section.offsetHeight;
+                const rect = section.getBoundingClientRect();
+                const sectionMiddle = rect.top + rect.height / 2;
 
-                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                // Check if section middle is close to viewport middle
+                if (Math.abs(sectionMiddle - viewportMiddle) < rect.height / 2) {
                     setActiveIndex(index);
                 }
             });
         };
 
         window.addEventListener('scroll', handleScroll);
-        handleScroll();
+        handleScroll(); // Initial call
 
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -107,27 +122,27 @@ const OurServices: React.FC = () => {
                                 </div> */}
                                 <div className="group relative max-w-lg">
                                     {/* Gradient glow effect */}
-                                    <div className="absolute -inset-0.5 bg-linear-to-r from-blue-800 via-blue-600 to-blue-400 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-500"></div>
+                                    {/* <div className="absolute -inset-0.5 bg-linear-to-r from-blue-800 via-blue-600 to-blue-400 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-500"></div> */}
 
                                     {/* Main card */}
-                                    <div className="relative bg-gradient-to-br from-neutral-900 via-neutral-900 to-neutral-800 p-10 rounded-2xl border border-neutral-700/50 shadow-2xl overflow-hidden">
+                                    <div className="relative bg-gradient-to-br- from-neutral-900 via-neutral-900 to-neutral-800 p-10 rounded-2xl border- border-neutral-700/50- shadow-2xl- overflow-hidden">
                                         {/* Subtle animated background pattern */}
-                                        <div className="absolute inset-0 opacity-5">
+                                        {/* <div className="absolute inset-0 opacity-5">
                                             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]"></div>
-                                        </div>
+                                        </div> */}
 
                                         {/* Shine effect on hover */}
-                                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                                        {/* <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
-                                        </div>
+                                        </div> */}
 
                                         {/* Content */}
                                         <div className="relative z-10">
                                             <div className="mb-8">
-                                                <h3 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-white to-neutral-300 bg-clip-text text-transparent leading-tight">
+                                                <h3 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-white to-neutral-300 bg-clip-text text-transparent- leading-tight">
                                                     {service.name}
                                                 </h3>
-                                                <p className="text-lg lg:text-xl text-neutral-300 leading-relaxed font-light">
+                                                <p className="text-lg lg:text-xl text-neutral-300- text-background/70 leading-relaxed font-light">
                                                     {service.description}
                                                 </p>
                                             </div>
@@ -136,15 +151,15 @@ const OurServices: React.FC = () => {
                                             <div className="w-16 h-0.5 bg-linear-to-r from-blue-600 to-blue-400 mb-6"></div>
 
                                             <div className="space-y-4">
-                                                <p className="font-semibold text-neutral-200 tracking-wide uppercase text-sm">
+                                                <p className="font-semibold text-neutral-200- text-background/90 tracking-wide uppercase text-sm">
                                                     Services
                                                 </p>
                                                 <div className="space-y-1.5">
                                                     {service.subServices.map((subService, index) => (
                                                         <NavLink
-                                                            to={`/${subService.href}`}
+                                                            to={`/service/${subService.href}`}
                                                             key={index}
-                                                            className="group/link flex items-center gap-3 px-4 py-3 rounded-lg text-neutral-400 font-medium hover:text-white hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-neutral-700/50"
+                                                            className="group/link flex items-center gap-3 px-4 py-3 rounded-lg text-neutral-400- font-medium hover:text-white- hover:bg-white/5- transition-all duration-300 border- border-transparent- hover:border-neutral-700/50- text-background/80 hover:bg-background/10"
                                                         >
                                                             <div className="text-blue-400 group-hover/link:text-blue-300 transition-colors duration-300">
                                                                 <subService.icon />
@@ -170,7 +185,8 @@ const OurServices: React.FC = () => {
                                 </div>
 
                                 <div className='lg:hidden h-108 w-full'>
-                                    {content[service.contentId as ContentKey]}
+                                    <img src={content[service.contentId as ContentKey]} alt="" />
+
                                 </div>
                             </div>
                         ))}
@@ -190,7 +206,7 @@ const OurServices: React.FC = () => {
                                             zIndex: activeIndex === index ? 10 : 5,
                                         }}
                                     >
-                                        {content[service.contentId as ContentKey]}
+                                        <img src={content[service.contentId as ContentKey]} alt="" className='rounded-xl h-full object-cover w-full' />
                                     </div>
                                 ))}
                             </div>

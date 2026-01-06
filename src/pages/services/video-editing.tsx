@@ -81,7 +81,7 @@ const VideoEditingPage = () => {
 
     return (
         <div>
-            <MainSection leftSection={left} rightSection={right} />
+            <MainSection text='Video Editing' leftSection={left} rightSection={right} />
             
             <Section className='overflow-visible' id='process'>
                 <Container>

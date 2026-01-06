@@ -485,7 +485,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <p className="text-white/50 text-sm mb-1">Email us at</p>
-                                    <p className="text-white font-semibold">hello@acurve.com</p>
+                                    <p className="text-white font-semibold">contact@acurve.com</p>
                                 </div>
                             </NavLink>
 
@@ -498,7 +498,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <p className="text-white/50 text-sm mb-1">Call us at</p>
-                                    <p className="text-white font-semibold">+1 (234) 567-890</p>
+                                    <p className="text-white font-semibold">+91 9825233854</p>
                                 </div>
                             </NavLink>
 
@@ -508,7 +508,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <p className="text-white/50 text-sm mb-1">Visit us at</p>
-                                    <p className="text-white font-semibold">San Francisco, CA</p>
+                                    <p className="text-white font-semibold">Jamnagar, gujarat, india</p>
                                 </div>
                             </div>
                         </div>

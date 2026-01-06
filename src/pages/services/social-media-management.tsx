@@ -81,7 +81,7 @@ const SocialMediaManagementPage = () => {
 
     return (
         <div>
-            <MainSection leftSection={left} rightSection={right} />
+            <MainSection text='Social Media Management' leftSection={left} rightSection={right} />
             
             <Section className='overflow-visible' id='process'>
                 <Container>

@@ -81,7 +81,7 @@ const BrandingPage = () => {
 
     return (
         <div>
-            <MainSection leftSection={left} rightSection={right} />
+            <MainSection text='Branding' leftSection={left} rightSection={right} />
             
             <Section className='overflow-visible' id='process'>
                 <Container>

@@ -19,15 +19,16 @@ const MainSectionRight = ({ children, className = "" }: ChildrenProps & ClassNam
 type MainSectionProps = {
     leftSection: ReactNode;
     rightSection: ReactNode;
+    text: string;
 }
 
-const MainSection = ({ leftSection, rightSection }: MainSectionProps & ClassNameProps) => {
+const MainSection = ({ leftSection, rightSection, text }: MainSectionProps & ClassNameProps) => {
     return (
         <Section className='mt-8 flex flex-col '>
             <Container className=' min-h-[calc(100vh-64px)] py-6 flex flex-col'>
                 <div className='flex   justify-between items-center'>
 
-                    <ServicePageHeader icon={<icons.digitalSolutions.customwebDevelopment.icon />} />
+                    <ServicePageHeader text={text} />
                     {/* <div className='hidden sm:flex gap-4 text-xs text-foreground/70'>
                         <NavLink to="#process">process</NavLink>
                         <NavLink to="#techstack">tech stack</NavLink>

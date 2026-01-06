@@ -73,7 +73,7 @@ const customwebDevelopmentPage = () => {
     }
     return (
         <div>
-            <MainSection leftSection={left} rightSection={right} />
+            <MainSection text='Custom Web Development' leftSection={left} rightSection={right} />
             <Section className='overflow-visible' id='process'>
                 <Container>
 

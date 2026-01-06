@@ -81,7 +81,7 @@ const APISystemIntegrationPage = () => {
 
     return (
         <div>
-            <MainSection leftSection={left} rightSection={right} />
+            <MainSection text='Api Developmen & System Integration' leftSection={left} rightSection={right} />
             
             <Section className='overflow-visible' id='process'>
                 <Container>

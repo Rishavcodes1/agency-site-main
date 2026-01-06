@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router';
-import { Mail, Phone, MapPin, Linkedin, Twitter, Instagram, Github } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, Twitter, Instagram, Github, Facebook } from 'lucide-react';
 import Acurve from '../svgs/Acurve';
 
 export default function Footer() {
@@ -8,16 +8,10 @@ export default function Footer() {
 
   const footerLinks = {
     services: [
-      { name: 'Web Development', href: '/services/web-development' },
-      { name: 'UI/UX Design', href: '/services/design' },
-      { name: 'Digital Marketing', href: '/services/marketing' },
-      { name: 'Branding', href: '/services/branding' }
-    ],
-    company: [
-      { name: 'About Us', href: '/about' },
-      { name: 'Services', href: '/services' },
-      { name: 'Contact', href: '/contact' },
-      { name: 'FAQ', href: '/faq' }
+      { name: 'Web Development', href: '/service/custom-web-development' },
+      { name: 'Cloud service', href: '/service/cloud-migration-hosting' },
+      { name: 'Digital Marketing', href: '/services/digital-marketing' },
+      { name: 'Graphic Design', href: '/service/graphic-design' }
     ],
     legal: [
       { name: 'Privacy Policy', href: '/privacy' },
@@ -30,13 +24,14 @@ export default function Footer() {
     { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
     { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
     { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
-    { icon: Github, href: 'https://github.com', label: 'Github' }
+    { icon: Facebook, href: 'https://facebook.com', label: 'Facebook' },
+    // { icon: Github, href: 'https://github.com', label: 'Github' }
   ];
 
   return (
     <footer className="relative bg-black border-t border-white/10">
       {/* Subtle grid pattern */}
-      <div 
+      <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
@@ -54,9 +49,9 @@ export default function Footer() {
               <Acurve />
               <span className="text-white text-2xl font-bold">Acurve</span>
             </div>
-            
+
             <p className="text-white/60 mb-8 leading-relaxed max-w-sm">
-              Building resilient digital infrastructure that defines industry leaders. 
+              Building resilient digital infrastructure that defines industry leaders.
               From strategy to execution.
             </p>
 
@@ -66,21 +61,21 @@ export default function Footer() {
                 <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
                   <Mail className="w-4 h-4" />
                 </div>
-                <span className="text-sm">hello@acurve.com</span>
+                <span className="text-sm">contact@acurve.com</span>
               </a>
 
               <a href="tel:+1234567890" className="flex items-center gap-3 text-white/60 hover:text-white transition-colors group">
                 <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
                   <Phone className="w-4 h-4" />
                 </div>
-                <span className="text-sm">+91 952357458</span>
+                <span className="text-sm">+91 9825233854</span>
               </a>
 
               <div className="flex items-center gap-3 text-white/60">
                 <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center">
                   <MapPin className="w-4 h-4" />
                 </div>
-                <span className="text-sm">Gujarat, india</span>
+                <span className="text-sm">Jamnagar, Gujarat, india</span>
               </div>
             </div>
           </div>
@@ -105,7 +100,7 @@ export default function Footer() {
           </div>
 
           {/* Company */}
-          <div className="lg:col-span-2">
+          {/* <div className="lg:col-span-2">
             <h3 className="text-white font-semibold mb-6 text-sm uppercase tracking-wider">
               Company
             </h3>
@@ -121,7 +116,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
 
           {/* Legal */}
           <div className="lg:col-span-2">
@@ -141,6 +136,10 @@ export default function Footer() {
               ))}
             </ul>
           </div>
+        </div>
+
+        <div className='w-full p-6'>
+          <h1 className='lg:text-[256px] md:text-7xl text-5xl text-center font-bold bg-linear-to-b from-neutral-600 text-transparent bg-clip-text to-white'>ACURVE</h1>
         </div>
 
         {/* Bottom Bar */}

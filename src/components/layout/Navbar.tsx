@@ -1,11 +1,12 @@
-import { useEffect, useState, type ComponentType } from 'react'
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '../ui/navigation-menu'
 
+
+import { useEffect, useState, useCallback, type ComponentType } from 'react'
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '../ui/navigation-menu'
 import { ChevronDown, Menu, X, ChevronRight, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { motion } from 'motion/react'
 import Acurve from '../svgs/Acurve'
-import { servicesList, type IService } from '@/constants/serviceList'
+import { servicesList } from '@/constants/serviceList'
 import { useNavbarScroll } from '@/hooks/useNavbarScroll'
 import { NavLink, useLocation } from 'react-router'
 import { IconRocket } from '@tabler/icons-react'
@@ -14,337 +15,485 @@ import { Button } from '../ui/button'
 import useIsMobile from '@/hooks/useIsMobile'
 import { Navbar, NavBody } from '../ui/resizable-navbar'
 
+// ============================================
+// TYPES - Centralized and improved
+// ============================================
 
-
-
-interface INavLinks {
-    id: string;
-    name: string,
-    href: string,
-    icon: ComponentType,
-    type: "link" | "dropdown";
-    subItems?: {
-        id: string;
-        name: string,
-        icon: ComponentType,
-        href: string,
-        // description: string,
-        type: "link" | "dropdown",
-    }[]
+interface ISubService {
+    id: string
+    name: string
+    icon: ComponentType
+    href: string
 }
 
-interface NavigationMenuListForMobileProps {
-    className?: string;
-    liClassName?: string;
-    linkClassName?: string;
-    divClassName?: string;
-
-    list: INavLinks[]
+interface IServiceCategory {
+    id: string
+    name: string
+    icon: ComponentType
+    subServices: ISubService[]
 }
 
+interface INavLink {
+    id: string
+    name: string
+    href: string
+    type: "link" | "dropdown"
+    icon?: ComponentType
+    categories?: IServiceCategory[]
+}
 
+interface MobileNavProps {
+    links: INavLink[]
+    isOpen: boolean
+    onClose: () => void
+}
 
-const NavigationMenuListForMobile = ({ list, className = "", liClassName = "", linkClassName = "", divClassName = "", isNavBarOpen = false }: NavigationMenuListForMobileProps & { isNavBarOpen: boolean }) => {
-    const [expandedServiceId, setExpandedServiceId] = useState<string | "">("")
-    const [expandedCategoryId, setExpandedCategoryId] = useState<string | "">("")
+// ============================================
+// UTILITIES - Pure functions
+// ============================================
 
-    const handleExpandedIdClick = (id: string) => {
-        if (id === expandedServiceId) {
-            setExpandedServiceId("")
-            setExpandedCategoryId("") // Reset category when closing main dropdown
-        }
-        else {
-            setExpandedServiceId(id)
-        }
-    }
+/**
+ * Generate stable IDs for navigation items
+ */
+const generateNavId = (prefix: string, name: string): string => {
+    return `${prefix}-${name.toLowerCase().replace(/\s+/g, '-')}`
+}
 
-    const handleCategoryClick = (id: string) => {
-        if (id === expandedCategoryId) {
-            setExpandedCategoryId("")
-        }
-        else {
-            setExpandedCategoryId(id)
-        }
+/**
+ * Transform services data into navigation structure
+ */
+const transformServicesToNavigation = (): IServiceCategory[] => {
+    return servicesList.map((service) => ({
+        id: generateNavId('category', service.name),
+        name: service.name,
+        icon: service.icon,
+        subServices: service.subServices.map((subService) => ({
+            id: generateNavId('service', subService.name),
+            name: subService.name,
+            icon: subService.icon,
+            href: subService.href
+        }))
+    }))
+}
+
+// ============================================
+// MOBILE NAVIGATION - Improved
+// ============================================
+
+interface MobileMenuItemProps {
+    link: INavLink
+    index: number
+    expandedItems: Set<string>
+    onToggle: (id: string) => void
+}
+
+const MobileMenuItem = ({ link, index, expandedItems, onToggle }: MobileMenuItemProps) => {
+    const isExpanded = expandedItems.has(link.id)
+
+    if (link.type === "link") {
+        return (
+            <NavLink
+                to={link.href}
+                className="w-full h-12 flex items-center font-semibold hover:bg-accent/50 transition-colors"
+            >
+                {link.name}
+            </NavLink>
+        )
     }
 
     return (
-        <ul className={cn('w-full', className)}>
-            {list.map((link, index) => (
-                <motion.div
-                    key={`${link.id}-${isNavBarOpen}`}
+        <div>
+            <button
+                className="w-full h-12 flex items-center font-semibold justify-between hover:bg-accent/50 transition-colors"
+                onClick={() => onToggle(link.id)}
+                aria-expanded={isExpanded}
+                aria-controls={`dropdown-${link.id}`}
+            >
+                <span>{link.name}</span>
+                <ChevronDown
                     className={cn(
-                        'overflow-hidden border border-transparent border-b-foreground/30',
-                        divClassName
+                        'transition-transform duration-300 text-secondary-foreground/30',
+                        isExpanded && "rotate-180"
                     )}
-                    initial={{
-                        y: -20 - index,
-                        opacity: 0,
-                    }}
-                    animate={{
-                        y: 0,
-                        opacity: 1,
-                        transition: {
-                            duration: 0.3,
-                            delay: 0.1 + index / 50
-                        }
-                    }}
-                >
-                    <li className={cn('', liClassName)}>
-                        {
-                            link.type === "link" ? (
-                                <NavLink
-                                    to={link.href}
-                                    className={cn(`w-full h-12 flex items-center font-semibold`, linkClassName)}
-                                >
-                                    {link.name}
-                                </NavLink>
-                            ) : (
-                                <div>
-                                    <div
-                                        className={cn(`w-full h-12 flex items-center font-semibold justify-between`, linkClassName)}
-                                        onClick={() => handleExpandedIdClick(link.id)}
-                                    >
-                                        <span>{link.name}</span>
-                                        <ChevronDown
-                                            className={cn(
-                                                'transition duration-300 text-secondary-foreground/30',
-                                                expandedServiceId === link.id && "rotate-180"
-                                            )}
-                                        />
-                                    </div>
+                    size={20}
+                />
+            </button>
 
-                                    {/* Render categories when expanded */}
-                                    {expandedServiceId === link.id && link.subItems && (
-                                        <div className=''>
-                                            {link.subItems.map((category) => (
-                                                <div key={category.id} className='border-b border-foreground/10 last:border-0'>
-                                                    <div
-                                                        className='h-12 flex items-center justify-between px-4 text-sm font-medium cursor-pointer hover:bg-accent/50'
-                                                        onClick={() => handleCategoryClick(category.id)}
-                                                    >
-                                                        <span className='flex items-center gap-2'>
-                                                            <category.icon />
-                                                            {category.name}
-                                                        </span>
-                                                        <ChevronRight
-                                                            className={cn(
-                                                                'transition duration-300',
-                                                                expandedCategoryId === category.id && "rotate-90"
-                                                            )}
-                                                            size={16}
-                                                        />
-                                                    </div>
-
-                                                    {/* Render sub-services when category is expanded */}
-                                                    {expandedCategoryId === category.id && (
-                                                        <div className=''>
-                                                            {servicesList.find(s => s.name === category.name)?.subServices.map((subService) => (
-                                                                <NavLink
-                                                                    key={subService.id}
-                                                                    to={`/service/${subService.href}`}
-                                                                    className='h-12 flex items-center gap-2 px-8 text-sm hover:bg-accent/50'
-                                                                >
-                                                                    <subService.icon />
-                                                                    {subService.name}
-                                                                </NavLink>
-                                                            ))}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            )
-                        }
-                    </li>
-                </motion.div>
-            ))}
-        </ul>
+            {isExpanded && link.categories && (
+                <div id={`dropdown-${link.id}`} className="bg-accent/20">
+                    {link.categories.map((category) => (
+                        <MobileCategoryItem
+                            key={category.id}
+                            category={category}
+                            expandedItems={expandedItems}
+                            onToggle={onToggle}
+                        />
+                    ))}
+                </div>
+            )}
+        </div>
     )
 }
 
+interface MobileCategoryItemProps {
+    category: IServiceCategory
+    expandedItems: Set<string>
+    onToggle: (id: string) => void
+}
+
+const MobileCategoryItem = ({ category, expandedItems, onToggle }: MobileCategoryItemProps) => {
+    const isExpanded = expandedItems.has(category.id)
+    const CategoryIcon = category.icon
+
+    return (
+        <div className="border-b border-foreground/10 last:border-0">
+            <button
+                className="w-full h-12 flex items-center justify-between px-4 text-sm font-medium hover:bg-accent/50 transition-colors"
+                onClick={() => onToggle(category.id)}
+                aria-expanded={isExpanded}
+                aria-controls={`category-${category.id}`}
+            >
+                <span className="flex items-center gap-2">
+                    <CategoryIcon />
+                    {category.name}
+                </span>
+                <ChevronRight
+                    className={cn(
+                        'transition-transform duration-300',
+                        isExpanded && "rotate-90"
+                    )}
+                    size={16}
+                />
+            </button>
+
+            {isExpanded && (
+                <div id={`category-${category.id}`} className="bg-accent/10">
+                    {category.subServices.map((subService) => {
+                        const SubServiceIcon = subService.icon
+                        return (
+                            <NavLink
+                                key={subService.id}
+                                to={`/service/${subService.href}`}
+                                className="h-12 flex items-center gap-2 px-8 text-sm hover:bg-accent/50 transition-colors"
+                            >
+                                <SubServiceIcon />
+                                {subService.name}
+                            </NavLink>
+                        )
+                    })}
+                </div>
+            )}
+        </div>
+    )
+}
+
+const MobileNavigation = ({ links, isOpen }: MobileNavProps) => {
+    // Use Set for O(1) lookup performance
+    const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set())
+
+    const handleToggle = useCallback((id: string) => {
+        setExpandedItems(prev => {
+            const next = new Set(prev)
+            if (next.has(id)) {
+                next.delete(id)
+                // Close all children when parent closes
+                links.forEach(link => {
+                    if (link.id === id && link.categories) {
+                        link.categories.forEach(cat => next.delete(cat.id))
+                    }
+                })
+            } else {
+                next.add(id)
+            }
+            return next
+        })
+    }, [links])
+
+    // Reset expansion when menu closes
+    useEffect(() => {
+        if (!isOpen) {
+            setExpandedItems(new Set())
+        }
+    }, [isOpen])
+
+    return (
+        <nav className="w-full" role="navigation" aria-label="Mobile navigation">
+            <ul className="w-full">
+                {links.map((link, index) => (
+                    <motion.li
+                        key={link.id}
+                        className="overflow-hidden border-b border-foreground/30 last:border-0"
+                        initial={{ y: -20, opacity: 0 }}
+                        animate={{
+                            y: 0,
+                            opacity: 1,
+                            transition: {
+                                duration: 0.3,
+                                delay: 0.05 + index * 0.02
+                            }
+                        }}
+                    >
+                        <MobileMenuItem
+                            link={link}
+                            index={index}
+                            expandedItems={expandedItems}
+                            onToggle={handleToggle}
+                        />
+                    </motion.li>
+                ))}
+            </ul>
+        </nav>
+    )
+}
+
+// ============================================
+// DESKTOP NAVIGATION - Improved
+// ============================================
+
+interface DesktopServicesDropdownProps {
+    categories: IServiceCategory[]
+}
+
+const DesktopServicesDropdown = ({ categories }: DesktopServicesDropdownProps) => {
+    const [selectedCategory, setSelectedCategory] = useState<IServiceCategory>(categories[0])
+
+    const handleCategoryHover = useCallback((category: IServiceCategory) => {
+        setSelectedCategory(category)
+    }, [])
+
+    return (
+        <NavigationMenuContent className="flex p-0 w-2xl!">
+            {/* Categories Panel */}
+            <div className="w-1/2 bg-accent/40 rounded-md rounded-tr-none rounded-br-none p-2">
+                <span className="text-xs text-gray-200 font-medium uppercase tracking-wider">
+                    Categories
+                </span>
+                <ul className="mt-2 space-y-1" role="menu">
+                    {categories.map((category) => {
+                        const CategoryIcon = category.icon
+                        const isSelected = category.id === selectedCategory.id
+
+                        return (
+                            <li key={category.id} role="none">
+                                <NavigationMenuLink asChild>
+                                    <button
+                                        onMouseEnter={() => handleCategoryHover(category)}
+                                        onFocus={() => handleCategoryHover(category)}
+                                        className={cn(
+                                            "w-full flex items-center gap-2 py-3 px-4 rounded-full text-foreground/60 hover:text-foreground hover:bg-accent/50 group transition-all duration-300 flex-row",
+                                            isSelected && "text-foreground bg-accent/30"
+                                        )}
+                                        role="menuitem"
+                                    >
+                                        <CategoryIcon />
+                                        <span>{category.name}</span>
+                                        <ChevronRight
+                                            size={16}
+                                            className={cn(
+                                                'ml-auto transition-all duration-300',
+                                                isSelected ? 'opacity-100 translate-x-1' : 'opacity-0 group-hover:opacity-100 group-hover:translate-x-1'
+                                            )}
+                                        />
+                                    </button>
+                                </NavigationMenuLink>
+                            </li>
+                        )
+                    })}
+                </ul>
+            </div>
+
+            {/* Services Panel */}
+            <div className=" p-2 w-1/2">
+                <span className="text-xs text-gray-200 font-medium uppercase tracking-wider">
+                    Services
+                </span>
+                <ul className="mt-2 space-y-1" role="menu">
+                    {selectedCategory.subServices.map((subService) => {
+                        const SubServiceIcon = subService.icon
+
+                        return (
+                            <li key={subService.id} role="none">
+                                <NavigationMenuLink asChild>
+                                    <NavLink
+                                        to={`/service/${subService.href}`}
+                                        className="flex items-center gap-2 py-3 px-4 rounded-full text-foreground/60 hover:text-foreground hover:bg-accent/50 group transition-all duration-300 flex-row"
+                                        role="menuitem"
+                                    >
+                                        <SubServiceIcon />
+                                        <span>{subService.name}</span>
+                                        <ArrowRight
+                                            size={18}
+                                            className="ml-auto -rotate-45 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300"
+                                        />
+                                    </NavLink>
+                                </NavigationMenuLink>
+                            </li>
+                        )
+                    })}
+                </ul>
+            </div>
+        </NavigationMenuContent>
+    )
+}
+
+// ============================================
+// MAIN NAVIGATION BAR - Cleaned up
+// ============================================
 
 const NavigationBar = () => {
-    const services: INavLinks[] = servicesList.map((service, index) => ({
-        id: `${index}-index-${index}`,
-        name: service.name,
-        href: "",
-        type: "dropdown" as const,
-        icon: service.icon, // Ensure icon is present
-        subItems: service.subServices.map((subService, index) => ({
-            id: `${index}-index-${index * 5}`,
-            name: subService.name,
-            href: subService.href,
-            type: "link" as const,
-            icon: subService.icon
-        }))
-    }))
-    const navLinks: INavLinks[] = [
+    const location = useLocation()
+    const { isMobile } = useIsMobile()
+    const navbarState = useNavbarScroll()
+    const [isNavbarOpen, setIsNavbarOpen] = useState(false)
+
+    // Transform services once
+    const serviceCategories = transformServicesToNavigation()
+
+    // Build navigation links structure
+    const navLinks: INavLink[] = [
         {
+            id: generateNavId('nav', 'home'),
             name: "Home",
             href: "/",
-            id: "86c0db0-6d41-4bc1-9f37-97682a33685a",
-            type: "link",
-            icon: () => <></>
+            type: "link"
         },
         {
+            id: generateNavId('nav', 'services'),
             name: "Services",
             href: '',
-            id: "dklgsdjnojweifkj",
             type: "dropdown",
-            icon: () => <></>,
-            subItems: services
+            categories: serviceCategories
         },
-        // {
-        //     name: "Blogs",
-        //     href: "/blogs",
-        //     id: "2ec91bf3-529c-4199-aa4b-be90edca9b9e",
-        //     type: "link",
-        //     icon: () => <></>
-        // },
         {
+            id: generateNavId('nav', 'contact'),
             name: "Contact",
             href: "/contact",
-            id: "0414acbc-88b4-45a9-8cb7-0c1ddc3dea4b",
-            type: "link",
-            icon: () => <></>
-        },
+            type: "link"
+        }
     ]
 
-
-    const { isMobile } = useIsMobile()
-    const [isNavbarOpen, setIsNavbarOpen] = useState<boolean>(false)
-    const [selectedService, setSelectedService] = useState<IService>(servicesList[0])
-    const location = useLocation()
+    // Close mobile menu on route change
     useEffect(() => {
         setIsNavbarOpen(false)
     }, [location.pathname])
 
+    // Prevent body scroll when mobile menu is open
+    useEffect(() => {
+        if (isNavbarOpen) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = 'unset'
+        }
+        return () => {
+            document.body.style.overflow = 'unset'
+        }
+    }, [isNavbarOpen])
 
-    const navbarState = useNavbarScroll()
+    const toggleNavbar = useCallback(() => {
+        setIsNavbarOpen(prev => !prev)
+    }, [])
 
     return (
         <Navbar>
             <NavBody>
                 <nav
-                    className={cn(" top-0 w-full transition-all rounded-full px-6 duration-300 ",
+                    className={cn(
+                        "top-0 w-full transition-all rounded-full px-6 duration-300",
                         navbarState === 'transparent' && 'bg-transparent border-transparent',
                         navbarState === 'blur' && "backdrop-blur-3xl bg-transparent border-transparent",
                         navbarState === "solid" && "bg-background border-b border-secondary",
-                        isNavbarOpen && "backdrop-blur-3xl rounded-md!")
-
-                    }
-
+                        isNavbarOpen && "backdrop-blur-3xl rounded-md!"
+                    )}
+                    role="navigation"
+                    aria-label="Main navigation"
                 >
-                    <div className={cn('flex-col flex md:justify-between overflow-hidden md:overflow-visible md:flex-row  min-h-16 md:items-center h-16', isNavbarOpen && "min-h-screen h-screen ")}>
-
-                        <motion.div className='navbar-branding-container flex items-center min-h-16  justify-between'>
-
-                            <NavLink to={"/"}>
-                                <h3 className='text-xl flex gap-2 items-center font-bold 2xl:text-2xl'>
-                                    <Acurve className='fill-white size-12' />
-                                    <p>Acurve</p>
-                                </h3>
+                    <div className={cn(
+                        'flex flex-col md:flex-row md:justify-between overflow-hidden md:overflow-visible min-h-16 md:items-center h-16',
+                        isNavbarOpen && "min-h-screen h-screen"
+                    )}>
+                        {/* Logo and Mobile Toggle */}
+                        <div className="flex items-center min-h-16 justify-between">
+                            <NavLink to="/" aria-label="Acurve Home">
+                                <h1 className="text-xl flex gap-2 items-center font-bold 2xl:text-2xl">
+                                    <Acurve className="fill-white size-12" />
+                                    <span>Acurve</span>
+                                </h1>
                             </NavLink>
-                            <div className='md:hidden'>
 
-                                {
-                                    !isNavbarOpen && <Button variant="outline" className='flex p-0' onClick={() => setIsNavbarOpen(true)}>
-                                        <Menu size={10} />
-                                    </Button>
-                                }
-                                {
-                                    isNavbarOpen && <Button variant="outline" className='flex p-0' onClick={() => setIsNavbarOpen(false)}>
-                                        <X size={10} />
-                                    </Button>
-                                }
+                            {/* Mobile Menu Toggle */}
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                className="md:hidden"
+                                onClick={toggleNavbar}
+                                aria-label={isNavbarOpen ? "Close menu" : "Open menu"}
+                                aria-expanded={isNavbarOpen}
+                            >
+                                {isNavbarOpen ? <X size={20} /> : <Menu size={20} />}
+                            </Button>
+                        </div>
 
-                            </div>
-                        </motion.div>
-                        <div className='md:flex hidden'>
-                            <NavigationMenu viewport={isMobile}>
-                                <NavigationMenuList className='gap-6 lg:gap-10'>
-                                    {navLinks.map((link) =>
-
+                        {/* Desktop Navigation */}
+                        <div className="hidden md:flex">
+                            <NavigationMenu>
+                                <NavigationMenuList className="gap-6 lg:gap-10">
+                                    {navLinks.map((link) => (
                                         <NavigationMenuItem key={link.id}>
-                                            {
-                                                link.type === "link" ?
-                                                    (<NavigationMenuLink asChild className={cn('font-semibold', location.pathname === link.href && "before:max-w-24")} variant='underline' >
-                                                        <NavLink to={link.href}>{link.name}</NavLink>
-                                                    </NavigationMenuLink>) :
-                                                    (
-                                                        <>
-                                                            <NavigationMenuTrigger className={cn('font-semibold ')}>{link.name}</NavigationMenuTrigger>
-                                                            <NavigationMenuContent className='flex p-0'>
-                                                                <div className=' w-max bg-accent/40 rounded-md rounded-tr-none rounded-br-none p-2'>
-
-                                                                    <span className='text-xs text-gray-200 font-medium'>categories</span>
-                                                                    <ul className="mt-2">
-                                                                        {
-                                                                            servicesList.map((service, index) => (
-
-                                                                                <li key={service.id}>
-                                                                                    <NavigationMenuLink asChild
-
-                                                                                        onMouseEnter={() => setSelectedService(servicesList[index])}
-                                                                                    >
-                                                                                        <NavLink to="" className={cn("flex  items-center gap-2 py-3 pr-10 text-foreground/60 hover:text-foreground group/categoryLink transition-all duration-300 flex-row", service.name === selectedService.name && "text-foreground")}>
-                                                                                            <service.icon />
-                                                                                            <p>{service.name}</p>
-                                                                                            <ChevronRight size={16} className='group-hover/categoryLink:translate-x-2 transition-all duration-300 opacity-0 group-hover/categoryLink:opacity-100' />
-                                                                                        </NavLink>
-                                                                                    </NavigationMenuLink>
-                                                                                </li>
-                                                                            ))
-                                                                        }
-                                                                    </ul>
-                                                                </div>
-                                                                <div className='w-84 p-2'>
-                                                                    <span className='text-xs text-gray-200 font-medium'>services</span>
-                                                                    <ul className='mt-2'>
-                                                                        {
-                                                                            selectedService.subServices.map((subService) => (
-                                                                                <li key={subService.id}>
-                                                                                    <NavigationMenuLink asChild >
-                                                                                        <NavLink to={`/service/${subService.href}`} className={cn("flex  items-center gap-2 py-3 pr-10 text-foreground/60 hover:text-foreground group/categoryLink transition-all duration-300 flex-row", subService.name === selectedService.name && "text-foreground")}>
-                                                                                            <subService.icon />
-                                                                                            <p>{subService.name}</p>
-                                                                                            <ArrowRight size={18} className=' -rotate-30 translate-y-2 transform group-hover/categoryLink:translate-y-0 transition-all duration-300 opacity-0 group-hover/categoryLink:opacity-100' />
-                                                                                        </NavLink>
-                                                                                    </NavigationMenuLink>
-                                                                                </li>
-                                                                            ))
-                                                                        }
-                                                                    </ul>
-                                                                </div>
-                                                            </NavigationMenuContent>
-                                                        </>
-                                                    )
-
-                                            }
+                                            {link.type === "link" ? (
+                                                <NavigationMenuLink
+                                                    asChild
+                                                    className={cn(
+                                                        'font-semibold',
+                                                        location.pathname === link.href && "before:max-w-24"
+                                                    )}
+                                                    variant="underline"
+                                                >
+                                                    <NavLink to={link.href}>{link.name}</NavLink>
+                                                </NavigationMenuLink>
+                                            ) : (
+                                                <>
+                                                    <NavigationMenuTrigger className="font-semibold">
+                                                        {link.name}
+                                                    </NavigationMenuTrigger>
+                                                    {link.categories && (
+                                                        <DesktopServicesDropdown categories={link.categories} />
+                                                    )}
+                                                </>
+                                            )}
                                         </NavigationMenuItem>
-                                    )}
+                                    ))}
                                 </NavigationMenuList>
                             </NavigationMenu>
-
                         </div>
-                        <div className='navbar-links-container md:hidden flex'>
-                            <NavigationMenuListForMobile list={navLinks} isNavBarOpen={isNavbarOpen} />
-                        </div>
-                        <div className='navbar-cta-container mt-auto mb-6    md:m-0'>
-                            <NavLink to={"/"} >
-                                <Button size="lg" className={cn('rounded-full flex gap-2 my-auto items-center w-full cursor-pointer bg-linear-to-r', blueGradientClass)}>
 
+                        {/* Mobile Navigation */}
+                        {isNavbarOpen && (
+                            <div className="md:hidden flex flex-1 overflow-y-auto">
+                                <MobileNavigation
+                                    links={navLinks}
+                                    isOpen={isNavbarOpen}
+                                    onClose={() => setIsNavbarOpen(false)}
+                                />
+                            </div>
+                        )}
+
+                        {/* CTA Button */}
+                        <div className="mt-auto mb-6 md:m-0">
+                            <NavLink to="/contact">
+                                <Button
+                                    size="lg"
+                                    className={cn(
+                                        'rounded-full cursor-pointer flex gap-2 items-center w-full bg-linear-to-r',
+                                        blueGradientClass
+                                    )}
+                                >
                                     <IconRocket size={18} />
-                                    <span>
-                                        Get started
-                                    </span>
+                                    <span>Get started</span>
                                 </Button>
                             </NavLink>
                         </div>
                     </div>
-                </nav >
+                </nav>
             </NavBody>
         </Navbar>
     )

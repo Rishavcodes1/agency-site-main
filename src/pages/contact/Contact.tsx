@@ -7,8 +7,8 @@ const Contact = () => {
     return (
         <div>
             <Container>
-
-                <QuickCallCTA className='mt-24' />
+                <></>
+                {/* <QuickCallCTA className='mt-24' /> */}
             </Container>
             <ContactPage />
         </div>

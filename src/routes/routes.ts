@@ -1,4 +1,5 @@
 import MainLayout from "@/components/layout/MainLayout";
+import NotFoundPage from "@/components/layout/NotFoundPage";
 import Contact from "@/pages/contact/Contact";
 import Home from "@/pages/home/Home";
 import Meeting from "@/pages/meeting/Meeting";
@@ -95,5 +96,9 @@ export const router = createBrowserRouter([
                 Component: CloudMigrationHostingPage,
             },
         ]
+    },
+    {
+        path:'*',
+        Component:NotFoundPage
     }
 ])
