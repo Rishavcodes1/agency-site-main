@@ -118,7 +118,7 @@ const FloatingItem = ({
     return (
         <motion.div
             className={cn(
-                "col-span-2 col-start-2 bg-gradient-to-br from-background/20 to-foreground/5 row-span-4 row-start-4",
+                "col-span-2 col-start-2 bg-linear-to-br from-background/20 to-foreground/5 row-span-4 row-start-4",
                 gridItemClassName,
                 className
             )}
@@ -291,7 +291,7 @@ export const AnimatedGradientBackground = () => {
 
     if (shouldReduceMotion) {
         return (
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+            <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-accent/5" />
         )
     }
 

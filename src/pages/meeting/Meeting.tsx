@@ -2,7 +2,7 @@ import  { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Calendar, Clock, User, Mail, Phone, Sparkles, Check, ChevronDown } from 'lucide-react';
+import { Calendar, Clock, User, Mail,  Sparkles, Check, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // Meeting form schema
@@ -112,7 +112,7 @@ export default function Meeting() {
                     <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
                         Schedule Your{' '}
                         <span className="relative inline-block">
-                            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                            <span className="bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                                 Consultation
                             </span>
                             <svg 
@@ -138,11 +138,11 @@ export default function Meeting() {
 
                 {/* Main Form Card */}
                 <div className="relative">
-                    <div className="absolute -inset-[1px] bg-gradient-to-b from-white/20 to-white/5 rounded-3xl blur-sm" />
+                    <div className="absolute -inset-px bg-linear-to-b from-white/20 to-white/5 rounded-3xl blur-sm" />
                     
                     <form 
                         onSubmit={handleSubmit(onSubmit)}
-                        className="relative bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-3xl p-8 lg:p-12 space-y-8"
+                        className="relative bg-white/2 backdrop-blur-xl border border-white/10 rounded-3xl p-8 lg:p-12 space-y-8"
                     >
                         {/* Personal Information Section */}
                         <div>
@@ -199,7 +199,7 @@ export default function Meeting() {
                                                 <button
                                                     type="button"
                                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                                    className="h-full px-3 bg-white/5 border border-white/10 rounded-xl text-white flex items-center gap-2 hover:bg-white/10 transition-all min-w-[100px]"
+                                                    className="h-full px-3 bg-white/5 border border-white/10 rounded-xl text-white flex items-center gap-2 hover:bg-white/10 transition-all min-w-25"
                                                 >
                                                     <span className="text-xl">{selectedCountry.flag}</span>
                                                     <span className="text-sm">{selectedCountry.code}</span>
@@ -286,7 +286,7 @@ export default function Meeting() {
                                                 className={cn(
                                                     "px-4 py-3 rounded-xl font-medium text-sm transition-all duration-300 border",
                                                     selectedTime === time
-                                                        ? "bg-gradient-to-r from-blue-600 to-blue-400 text-white border-transparent shadow-lg shadow-blue-500/30"
+                                                        ? "bg-linear-to-r from-blue-600 to-blue-400 text-white border-transparent shadow-lg shadow-blue-500/30"
                                                         : "bg-white/5 text-white/80 border-white/10 hover:bg-white/10 hover:border-white/20"
                                                 )}
                                             >
@@ -306,7 +306,7 @@ export default function Meeting() {
 
                         {/* Info Badge */}
                         <div className="flex items-start gap-3 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
-                            <Clock className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                            <Clock className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
                             <div>
                                 <p className="text-blue-300 text-sm font-semibold mb-1">Meeting Duration: 30 minutes</p>
                                 <p className="text-blue-200/70 text-xs">
@@ -319,7 +319,7 @@ export default function Meeting() {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30"
+                            className="w-full py-4 px-6 bg-linear-to-r from-blue-600 to-blue-400 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30"
                         >
                             {isSubmitting ? (
                                 <>
@@ -338,7 +338,7 @@ export default function Meeting() {
 
                 {/* Trust Indicators */}
                 <div className="mt-12 grid md:grid-cols-3 gap-6">
-                    <div className="flex items-center gap-3 p-4 bg-white/[0.02] border border-white/10 rounded-xl">
+                    <div className="flex items-center gap-3 p-4 bg-white/2 border border-white/10 rounded-xl">
                         <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
                             <Check className="w-5 h-5 text-green-400" />
                         </div>
@@ -348,7 +348,7 @@ export default function Meeting() {
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-3 p-4 bg-white/[0.02] border border-white/10 rounded-xl">
+                    <div className="flex items-center gap-3 p-4 bg-white/2 border border-white/10 rounded-xl">
                         <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
                             <Clock className="w-5 h-5 text-blue-400" />
                         </div>
@@ -358,7 +358,7 @@ export default function Meeting() {
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-3 p-4 bg-white/[0.02] border border-white/10 rounded-xl">
+                    <div className="flex items-center gap-3 p-4 bg-white/2 border border-white/10 rounded-xl">
                         <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center">
                             <Mail className="w-5 h-5 text-purple-400" />
                         </div>

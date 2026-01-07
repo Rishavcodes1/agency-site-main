@@ -12,7 +12,6 @@ import { NavLink, useLocation } from 'react-router'
 import { IconRocket } from '@tabler/icons-react'
 import { blueGradientClass } from '@/constants/gradients.constants'
 import { Button } from '../ui/button'
-import useIsMobile from '@/hooks/useIsMobile'
 import { Navbar, NavBody } from '../ui/resizable-navbar'
 
 // ============================================
@@ -82,12 +81,11 @@ const transformServicesToNavigation = (): IServiceCategory[] => {
 
 interface MobileMenuItemProps {
     link: INavLink
-    index: number
     expandedItems: Set<string>
     onToggle: (id: string) => void
 }
 
-const MobileMenuItem = ({ link, index, expandedItems, onToggle }: MobileMenuItemProps) => {
+const MobileMenuItem = ({ link,  expandedItems, onToggle }: MobileMenuItemProps) => {
     const isExpanded = expandedItems.has(link.id)
 
     if (link.type === "link") {
@@ -235,7 +233,6 @@ const MobileNavigation = ({ links, isOpen }: MobileNavProps) => {
                     >
                         <MobileMenuItem
                             link={link}
-                            index={index}
                             expandedItems={expandedItems}
                             onToggle={handleToggle}
                         />
@@ -342,7 +339,6 @@ const DesktopServicesDropdown = ({ categories }: DesktopServicesDropdownProps) =
 
 const NavigationBar = () => {
     const location = useLocation()
-    const { isMobile } = useIsMobile()
     const navbarState = useNavbarScroll()
     const [isNavbarOpen, setIsNavbarOpen] = useState(false)
 

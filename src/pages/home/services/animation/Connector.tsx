@@ -315,7 +315,7 @@ interface ConnectorProps {
     toSide?: Side;
     color?: string;
     strokeWidth?: number;
-    duration?: number;
+    // duration?: number;
     className?: string;
     pathColor?: string; // Color of the background track
     reverse?: boolean; // Direction of flow
@@ -332,7 +332,6 @@ export const Connector = ({
     color = '#6366f1', // Indigo-500
     pathColor = '#e5e7eb', // Gray-200
     strokeWidth = 2,
-    duration = 2,
     className = '',
     reverse = false,
     dotted = false,
@@ -371,12 +370,7 @@ export const Connector = ({
     // Animation configuration
     // We use a long dasharray: [length of beam, length of gap]
     // The gap must be long enough to hide the beam when it cycles.
-    const transition = {
-        duration: duration,
-        ease: "linear",
-        repeat: Infinity,
-        repeatDelay: 0, // Continuous flow
-    };
+    
 
     return (
         <svg
