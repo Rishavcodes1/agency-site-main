@@ -62,12 +62,12 @@ export function ProcessSteps({  steps, image, imageAlt }: ProcessStepsProps) {
                                 >
                                     {/* Step Number Circle */}
                                     <div className="flex items-start gap-6">
-                                        <div className="flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-white font-display font-bold text-xl shadow-lg shadow-primary/20">
+                                        <div className="shrink-0 w-14 h-14 rounded-full bg-linear-to-br from-primary to-primary/80 flex items-center justify-center text-white font-display font-bold text-xl shadow-lg shadow-primary/20">
                                             {step.number}
                                         </div>
 
                                         {/* Step Content */}
-                                        <div className="pt-2 flex-grow">
+                                        <div className="pt-2 grow">
                                             <h3 className="text-xl md:text-2xl font-display font-bold mb-3">
                                                 {step.title}
                                             </h3>
@@ -80,7 +80,7 @@ export function ProcessSteps({  steps, image, imageAlt }: ProcessStepsProps) {
                                     {/* Animated Line Connector */}
                                     {index < steps.length - 1 && (
                                         <motion.div
-                                            className="absolute left-7 top-20 w-0.5 h-20 bg-gradient-to-b from-primary/60 to-primary/20 origin-top"
+                                            className="absolute left-7 top-20 w-0.5 h-20 bg-linear-to-b from-primary/60 to-primary/20 origin-top"
                                             style={{
                                                 scaleY: stepProgress,
                                             }}

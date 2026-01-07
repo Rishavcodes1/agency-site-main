@@ -476,7 +476,7 @@ export default function ContactPage() {
                         <div className="space-y-4">
                             <NavLink
                                 to="mailto:hello@acurve.com"
-                                className="group flex items-center gap-4 p-6 bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300"
+                                className="group flex items-center gap-4 p-6 bg-white/2 backdrop-blur-xl border border-white/10 rounded-2xl hover:bg-white/5 hover:border-white/20 transition-all duration-300"
                             >
                                 <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
                                     <Mail className="w-6 h-6 text-white/80" />
@@ -489,7 +489,7 @@ export default function ContactPage() {
 
                             <NavLink
                                 to="tel:+1234567890"
-                                className="group flex items-center gap-4 p-6 bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300"
+                                className="group flex items-center gap-4 p-6 bg-white/2 backdrop-blur-xl border border-white/10 rounded-2xl hover:bg-white/5 hover:border-white/20 transition-all duration-300"
                             >
                                 <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
                                     <Phone className="w-6 h-6 text-white/80" />
@@ -500,7 +500,7 @@ export default function ContactPage() {
                                 </div>
                             </NavLink>
 
-                            <div className="flex items-center gap-4 p-6 bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl">
+                            <div className="flex items-center gap-4 p-6 bg-white/2 backdrop-blur-xl border border-white/10 rounded-2xl">
                                 <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center">
                                     <MapPin className="w-6 h-6 text-white/80" />
                                 </div>
@@ -512,7 +512,7 @@ export default function ContactPage() {
                         </div>
 
                         {/* Trust Badge */}
-                        <div className="p-6 bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl">
+                        <div className="p-6 bg-white/2 backdrop-blur-xl border border-white/10 rounded-2xl">
                             <p className="text-white/70 text-sm leading-relaxed">
                                 <span className="font-semibold text-white">We respect your privacy.</span> Your information
                                 is secure and will never be shared with third parties.
@@ -522,11 +522,11 @@ export default function ContactPage() {
 
                     {/* Right Column - Form */}
                     <div className="relative">
-                        <div className="absolute -inset-[1px] bg-white/10 rounded-3xl opacity-50 blur-sm" />
+                        <div className="absolute -inset-px bg-white/10 rounded-3xl opacity-50 blur-sm" />
 
                         <form
                             onSubmit={handleSubmit(onSubmit)}
-                            className="relative bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-3xl p-8 lg:p-10 space-y-6"
+                            className="relative bg-white/2 backdrop-blur-xl border border-white/10 rounded-3xl p-8 lg:p-10 space-y-6"
                         >
                             {/* Name */}
                             <div>
@@ -557,7 +557,7 @@ export default function ContactPage() {
                                             <button
                                                 type="button"
                                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                                className="h-full px-3 bg-white/5 border border-white/10 rounded-xl text-white flex items-center gap-2 hover:bg-white/10 transition-all min-w-[100px]"
+                                                className="h-full px-3 bg-white/5 border border-white/10 rounded-xl text-white flex items-center gap-2 hover:bg-white/10 transition-all min-w-25"
                                             >
                                                 <span className="text-xl">{selectedCountry.flag}</span>
                                                 <span className="text-sm">{selectedCountry.code}</span>
@@ -680,7 +680,7 @@ export default function ContactPage() {
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="group w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                className="group w-full py-4 px-6 bg-linear-to-r from-blue-600 to-blue-400 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 {isSubmitting ? (
                                     <>

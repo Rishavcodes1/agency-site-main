@@ -118,11 +118,11 @@ const BenefitCard: React.FC<BenefitCardProps> = ({ benefit, index }) => {
                 
                 {/* Animated shine on hover */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                    <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12" />
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-linear-to-r from-transparent via-white/5 to-transparent skew-x-12" />
                 </div>
 
                 {/* Corner accent */}
-                <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-white/5 to-transparent rounded-bl-3xl" />
+                <div className="absolute top-0 right-0 w-20 h-20 bg-linear-to-br from-white/5 to-transparent rounded-bl-3xl" />
 
                 {/* Content */}
                 <div className="relative z-10 flex flex-col items-center text-center h-full">
@@ -159,12 +159,12 @@ const BenefitCard: React.FC<BenefitCardProps> = ({ benefit, index }) => {
                     </p>
 
                     {/* Bottom decorative line */}
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-px bg-linear-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
 
                 {/* Side indicators */}
-                <div className="absolute top-8 left-0 w-1 h-12 bg-gradient-to-b from-white/20 via-white/10 to-transparent rounded-r opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute top-8 right-0 w-1 h-12 bg-gradient-to-b from-white/20 via-white/10 to-transparent rounded-l opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute top-8 left-0 w-1 h-12 bg-linear-to-b from-white/20 via-white/10 to-transparent rounded-r opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute top-8 right-0 w-1 h-12 bg-linear-to-b from-white/20 via-white/10 to-transparent rounded-l opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
         </motion.div>
     );

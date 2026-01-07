@@ -139,7 +139,7 @@ const OurServices: React.FC = () => {
                                         {/* Content */}
                                         <div className="relative z-10">
                                             <div className="mb-8">
-                                                <h3 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-white to-neutral-300 bg-clip-text text-transparent- leading-tight">
+                                                <h3 className="text-4xl lg:text-5xl font-bold mb-6 bg-linear-to-r from-white via-white to-neutral-300 bg-clip-text text-transparent- leading-tight">
                                                     {service.name}
                                                 </h3>
                                                 <p className="text-lg lg:text-xl text-neutral-300- text-background/70 leading-relaxed font-light">
@@ -180,7 +180,7 @@ const OurServices: React.FC = () => {
                                         </div>
 
                                         {/* Corner accent */}
-                                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full"></div>
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-blue-500/10 to-transparent rounded-bl-full"></div>
                                     </div>
                                 </div>
 

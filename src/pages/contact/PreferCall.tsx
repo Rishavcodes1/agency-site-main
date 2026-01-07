@@ -13,9 +13,9 @@ export default function QuickCallCTA({
     return (
         <div className={`relative group ${className}`}>
 
-            <div className="relative bg-white/[0.04] backdrop-blur-xl border border-white/10 rounded-2xl p-8 space-y-4">
+            <div className="relative bg-white/4 backdrop-blur-xl border border-white/10 rounded-2xl p-8 space-y-4">
                 <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
                         <Phone className="w-6 h-6 text-white" />
                     </div>
 
