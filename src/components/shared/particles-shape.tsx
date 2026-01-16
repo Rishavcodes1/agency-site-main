@@ -3,9 +3,7 @@ import {  useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-/**
- * Props for the Morphing Particle Component
- */
+
 interface MorphingParticlesProps {
     icon: React.ReactNode;
     color?: string;
