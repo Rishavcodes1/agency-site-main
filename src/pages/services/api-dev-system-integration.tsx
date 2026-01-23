@@ -6,7 +6,6 @@ import Section from '@/components/layout/Section';
 import MainSection from '@/components/shared/main-section';
 import Features from '@/components/shared/features';
 import CallToAction from '@/components/shared/CallToAction';
-import { useEffect } from 'react';
 import { icons } from '@/constants/icons';
 import StaggeredLayout from '@/components/shared/staggered-layout';
 import PhaseContent from '@/components/shared/PhaseContent';
@@ -22,6 +21,7 @@ import phase3 from "@/assets/api-dev-sys-int/phase3.webp"
 import phase4 from "@/assets/api-dev-sys-int/phase4.webp"
 import phase5 from "@/assets/api-dev-sys-int/phase5.webp"
 import phase6 from "@/assets/api-dev-sys-int/phase6.webp"
+import ForSeo from '@/components/shared/ForSeo';
 
 
 const APISystemIntegrationPage = () => {
@@ -140,12 +140,13 @@ const APISystemIntegrationPage = () => {
     const techStackListFinal = techStackList.map((stack) => <TechContainer children={stack.icon} glowClassName={stack.className} />)
 
 
-    useEffect(() => {
-        document.title = "Api Development & System Integration | Acurve"
-    }, [])
-
     return (
-        <div>
+        <>
+            <ForSeo
+                title='API Development & System Connectivity - Acurve'
+                description='Acurve develops APIs and system connectivity solutions to ensure seamless data exchange and integration.'
+                path='/service/api-dev-system-integration'
+            />
             <MainSection text='Api Developmen & System Integration' leftSection={left} rightSection={right} icon={<icons.automationIntegration.apiDevSystemIntegration.icon />} />
 
             <Section className='overflow-visible' id='process'>
@@ -169,7 +170,7 @@ const APISystemIntegrationPage = () => {
                 </Container>
             </Section>
             <CallToAction />
-        </div>
+        </>
     )
 }
 

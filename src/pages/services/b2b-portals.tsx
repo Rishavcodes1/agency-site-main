@@ -5,7 +5,6 @@ import Container from '@/components/layout/Container';
 import Section from '@/components/layout/Section';
 import MainSection from '@/components/shared/main-section';
 import Features from '@/components/shared/features';
-import { useEffect } from 'react';
 import { icons } from '@/constants/icons';
 import Right from './RightSection';
 import Left from './LeftSection';
@@ -22,6 +21,7 @@ import { techStackList } from '@/constants/techstack/b2b-portals';
 import TechContainer from './TechContainer';
 import StaggeredLayout from '@/components/shared/staggered-layout';
 import CallToAction from '@/components/shared/CallToAction';
+import ForSeo from '@/components/shared/ForSeo';
 
 const B2BPortals = () => {
     const processStepsList = [
@@ -141,13 +141,15 @@ const B2BPortals = () => {
     )
 
 
-    useEffect(() => {
-        document.title = "B2B Portals | Acurve"
-    }, [])
 
     const techStackListFinal = techStackList.map((stack) => <TechContainer children={stack.icon} glowClassName={stack.className} />)
     return (
-        <div>
+        <>
+            <ForSeo
+                title='B2B Portals - Acurve'
+                description='Acurve develops B2B portals to streamline business operations, improve communication, and enhance productivity.'
+                path='/service/b2b-portals'
+            />
             <MainSection text='B2B Portals' leftSection={left} rightSection={right} icon={<icons.digitalSolutions.b2bportals.icon />} />
 
             <Section className='overflow-visible' id='process'>
@@ -159,9 +161,9 @@ const B2BPortals = () => {
 
             <Section id='techstack'>
                 <Container>
-                    <SectionHeader heading='Technology Stack for B2B Portals'  />
+                    <SectionHeader heading='Technology Stack for B2B Portals' />
                 </Container>
-                <StaggeredLayout list={techStackListFinal}/>
+                <StaggeredLayout list={techStackListFinal} />
             </Section>
 
             <Section id='features'>
@@ -171,7 +173,7 @@ const B2BPortals = () => {
                 </Container>
             </Section>
             <CallToAction />
-        </div>
+        </>
     )
 }
 

@@ -6,7 +6,6 @@ import Section from '@/components/layout/Section';
 import MainSection from '@/components/shared/main-section';
 import Features from '@/components/shared/features';
 import CallToAction from '@/components/shared/CallToAction';
-import { useEffect } from 'react';
 import { icons } from '@/constants/icons';
 import Right from './RightSection';
 import Left from './LeftSection';
@@ -22,6 +21,7 @@ import phase6 from "@/assets/cloud-migrate-host/phase6.webp"
 import StaggeredLayout from '@/components/shared/staggered-layout';
 import TechContainer from './TechContainer';
 import { techStackList } from '@/constants/techstack/cloud-migrate-host';
+import ForSeo from '@/components/shared/ForSeo';
 
 const CloudMigrationHostingPage = () => {
     const processStepsList = [
@@ -141,12 +141,15 @@ const CloudMigrationHostingPage = () => {
     )
 
 
-    useEffect(() => {
-        document.title = "Cloud Migration & Hosting | Acurve"
-    }, [])
     const techStackListFinal = techStackList.map((stack) => <TechContainer children={stack.icon} glowClassName={stack.className} />)
     return (
-        <div>
+        <>
+            <ForSeo
+                title='Cloud Migration & Hosting - Acurve'
+                description='Acurve handles cloud migration and hosting solutions for secure, scalable, and efficient operations.'
+                path='/service/cloud-migration-hosting'
+
+            />
             <MainSection text='Cloud Migration & Hosting'
                 leftSection={left} rightSection={right}
                 icon={<icons.cloudInfrastructure.cloudMigrationHosting.icon />} />
@@ -172,7 +175,7 @@ const CloudMigrationHostingPage = () => {
                 </Container>
             </Section>
             <CallToAction />
-        </div>
+        </>
     )
 }
 

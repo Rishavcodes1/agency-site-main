@@ -11,7 +11,7 @@ const ServicePageHeader = ({ text, icon }: { text: string, icon?: ReactNode } & 
 
                     {icon}
                 </div>
-                <p className='text-xl font-semibold '>{text}</p>
+                <h1 className='text-xl font-semibold '>{text}</h1>
             </div>
         </Animate>
     )

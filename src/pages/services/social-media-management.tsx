@@ -6,7 +6,6 @@ import Section from '@/components/layout/Section';
 import MainSection from '@/components/shared/main-section';
 import Features from '@/components/shared/features';
 import CallToAction from '@/components/shared/CallToAction';
-import { useEffect } from 'react';
 import { icons } from '@/constants/icons';
 import { Timeline } from '@/components/ui/timeline';
 import Right from './RightSection';
@@ -22,6 +21,7 @@ import phase6 from "@/assets/social-media-management/phase6.webp"
 import { techStackList } from '@/constants/techstack/social-media-management';
 import TechContainer from './TechContainer';
 import StaggeredLayout from '@/components/shared/staggered-layout';
+import ForSeo from '@/components/shared/ForSeo';
 
 
 const SocialMediaManagementPage = () => {
@@ -147,15 +147,16 @@ const SocialMediaManagementPage = () => {
     )
 
 
-
-    useEffect(() => {
-        document.title = "Social Media Management | Acurve"
-    }, [])
-
     const techStackListFinal = techStackList.map((stack) => <TechContainer children={stack.icon} glowClassName={stack.className} />)
 
     return (
-        <div>
+        <>
+            <ForSeo
+                title='Social Media Management - Acurve'
+                description='Acurve manages your social media presence to grow your audience and drive meaningful engagement.'
+                path='/service/social-media-management'
+
+            />
             <MainSection text='Social Media Management' leftSection={left} rightSection={right} icon={<icons.digitalPresence.socialMediaManagement.icon />} />
 
             <Section className='overflow-visible' id='process'>
@@ -181,7 +182,7 @@ const SocialMediaManagementPage = () => {
                 </Container>
             </Section>
             <CallToAction />
-        </div>
+        </>
     )
 }
 

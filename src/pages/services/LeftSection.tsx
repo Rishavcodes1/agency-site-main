@@ -16,7 +16,7 @@ const Left = ({ heading, subHeading }: LeftProps) => {
             <div className='space-y-5 '>
 
                 <Animate type="fade-up" duration={1}>
-                    <h3 className="md:text-4xl sm:text-3xl text-center text-2xl font-bold lg:text-start">{heading}</h3>
+                    <h1 className="md:text-4xl sm:text-3xl text-center text-2xl font-bold lg:text-start">{heading}</h1>
                 </Animate>
                 <Animate type="fade-up" duration={1} delay={0.3}>
 

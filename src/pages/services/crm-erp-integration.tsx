@@ -6,7 +6,6 @@ import Section from '@/components/layout/Section';
 import MainSection from '@/components/shared/main-section';
 import Features from '@/components/shared/features';
 import CallToAction from '@/components/shared/CallToAction';
-import { useEffect } from 'react';
 import { icons } from '@/constants/icons';
 import Right from './RightSection';
 import Left from './LeftSection';
@@ -22,6 +21,7 @@ import phase6 from "@/assets/crm-erp-integrate/phase6.webp"
 import { techStackList } from '@/constants/techstack/crm-erp-integrate';
 import TechContainer from './TechContainer';
 import StaggeredLayout from '@/components/shared/staggered-layout';
+import ForSeo from '@/components/shared/ForSeo';
 
 const CRMERPIntegrationPage = () => {
     const processStepsList = [
@@ -140,15 +140,16 @@ const CRMERPIntegrationPage = () => {
     )
 
 
-    useEffect(() => {
-        document.title = "CRM & ERP Integration | Acurve"
-    }, [])
-
 
     const techStackListFinal = techStackList.map((stack) => <TechContainer children={stack.icon} glowClassName={stack.className} />)
 
     return (
-        <div>
+        <>
+            <ForSeo
+                title='CRM & ERP Integration - Acurve'
+                description='Acurve integrates CRM and ERP systems to streamline workflows and enhance business efficiency.'
+                path='/service/crm-erp-integration'
+            />
             <MainSection text='CRM & ERP Integration' leftSection={left} rightSection={right} icon={<icons.automationIntegration.crmErpIntegration.icon />} />
 
             <Section className='overflow-visible' id='process'>
@@ -160,7 +161,7 @@ const CRMERPIntegrationPage = () => {
 
             <Section id='techstack'>
                 <Container>
-                    <SectionHeader heading='Tools we use in Integration'/>
+                    <SectionHeader heading='Tools we use in Integration' />
                 </Container>
                 <StaggeredLayout list={techStackListFinal} />
             </Section>
@@ -172,7 +173,7 @@ const CRMERPIntegrationPage = () => {
                 </Container>
             </Section>
             <CallToAction />
-        </div>
+        </>
     )
 }
 

@@ -6,7 +6,6 @@ import Section from '@/components/layout/Section';
 import MainSection from '@/components/shared/main-section';
 import Features from '@/components/shared/features';
 import CallToAction from '@/components/shared/CallToAction';
-import { useEffect } from 'react';
 import { icons } from '@/constants/icons';
 import { Timeline } from '@/components/ui/timeline';
 import Right from './RightSection';
@@ -22,6 +21,7 @@ import phase6 from "@/assets/video-editing/phase6.webp"
 import { techStackList } from '@/constants/techstack/video-editing';
 import TechContainer from './TechContainer';
 import StaggeredLayout from '@/components/shared/staggered-layout';
+import ForSeo from '@/components/shared/ForSeo';
 
 const VideoEditingPage = () => {
     const processStepsList = [
@@ -144,15 +144,15 @@ const VideoEditingPage = () => {
         <Right icon={<icons.creativity.videoEditing.icon />} />
     )
 
-
-    useEffect(() => {
-        document.title = "Video Editing | Acurve"
-    }, [])
-
     const techStackListFinal = techStackList.map((stack) => <TechContainer children={stack.icon} glowClassName={stack.className} />)
 
     return (
-        <div>
+        <>
+            <ForSeo
+                title='Video Editing - Acurve'
+                description='Acurve delivers professional video editing services to create engaging and high-quality visual content.'
+                path='/service/video-editing'
+            />
             <MainSection text='Video Editing' leftSection={left} rightSection={right} icon={<icons.creativity.videoEditing.icon />} />
 
             <Section className='overflow-visible' id='process'>
@@ -178,7 +178,7 @@ const VideoEditingPage = () => {
                 </Container>
             </Section>
             <CallToAction />
-        </div>
+        </>
     )
 }
 

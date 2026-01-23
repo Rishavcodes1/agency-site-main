@@ -1,12 +1,11 @@
 import SectionHeader from '@/components/shared/SectionHeader';
 
-import { IconBrandPagekit, IconBulb, IconColorSwatch,  IconPalette,  IconTypography, IconWorldWww } from '@tabler/icons-react';
+import { IconBrandPagekit, IconBulb, IconColorSwatch, IconPalette, IconTypography, IconWorldWww } from '@tabler/icons-react';
 import Container from '@/components/layout/Container';
 import Section from '@/components/layout/Section';
 import MainSection from '@/components/shared/main-section';
 import Features from '@/components/shared/features';
 import CallToAction from '@/components/shared/CallToAction';
-import { useEffect } from 'react';
 import { icons } from '@/constants/icons';
 import Right from './RightSection';
 import Left from './LeftSection';
@@ -22,6 +21,7 @@ import phase6 from "@/assets/branding/phase6.webp"
 import { techStackList } from '@/constants/techstack/branding';
 import TechContainer from './TechContainer';
 import StaggeredLayout from '@/components/shared/staggered-layout';
+import ForSeo from '@/components/shared/ForSeo';
 
 const BrandingPage = () => {
     const processStepsList = [
@@ -140,12 +140,14 @@ const BrandingPage = () => {
         <Right icon={<icons.digitalPresence.branding.icon />} />
     )
 
-    useEffect(() => {
-        document.title = "Branding | Acurve"
-    }, [])
-const techStackListFinal = techStackList.map((stack) => <TechContainer children={stack.icon} glowClassName={stack.className} />)
+    const techStackListFinal = techStackList.map((stack) => <TechContainer children={stack.icon} glowClassName={stack.className} />)
     return (
-        <div>
+        <>
+            <ForSeo
+            title='Branding - Acurve'
+            description='Acurve delivers branding solutions to establish a strong business identity and leave a lasting impression.'
+            path='/service/branding'
+            />
             <MainSection text='Branding'
                 leftSection={left} rightSection={right}
                 icon={<icons.digitalPresence.branding.icon />} />
@@ -171,7 +173,7 @@ const techStackListFinal = techStackList.map((stack) => <TechContainer children=
                 </Container>
             </Section>
             <CallToAction />
-        </div>
+        </>
     )
 }
 

@@ -1,12 +1,11 @@
 import SectionHeader from '@/components/shared/SectionHeader';
 
-import { IconBell, IconFileInvoice, IconMessageCircle, IconPackage, IconShoppingCart,  IconTruck } from '@tabler/icons-react';
+import { IconBell, IconFileInvoice, IconMessageCircle, IconPackage, IconShoppingCart, IconTruck } from '@tabler/icons-react';
 import Container from '@/components/layout/Container';
 import Section from '@/components/layout/Section';
 import MainSection from '@/components/shared/main-section';
 import Features from '@/components/shared/features';
 import CallToAction from '@/components/shared/CallToAction';
-import { useEffect } from 'react';
 import { icons } from '@/constants/icons';
 import Right from './RightSection';
 import Left from './LeftSection';
@@ -22,6 +21,7 @@ import phase6 from "@/assets/customer-vendor-portals/phase6.webp"
 import StaggeredLayout from '@/components/shared/staggered-layout';
 import { techStackList } from '@/constants/techstack/customer-vendor-portals';
 import TechContainer from './TechContainer';
+import ForSeo from '@/components/shared/ForSeo';
 
 const CustomerVendorPortalsPage = () => {
     const processStepsList = [
@@ -142,14 +142,16 @@ const CustomerVendorPortalsPage = () => {
 
 
 
-    useEffect(() => {
-        document.title = "Customer & Vendor Portals | Acurve"
-    }, [])
 
 
     const techStackListFinal = techStackList.map((stack) => <TechContainer children={stack.icon} glowClassName={stack.className} />)
     return (
-        <div>
+        <>
+            <ForSeo
+                title='Customer & Vendor Portals - Acurve'
+                description='Acurve creates secure and scalable customer and vendor portals to simplify management and interactions.'
+                path='/service/customer-vendor-portals'
+            />
             <MainSection text='Customer & Vendor Portals' leftSection={left} rightSection={right} icon={<icons.digitalSolutions.customerVendorPortals.icon />} />
 
             <Section className='overflow-visible' id='process'>
@@ -163,7 +165,7 @@ const CustomerVendorPortalsPage = () => {
 
             <Section id='techstack'>
                 <Container>
-                    <SectionHeader heading='Technology Powering Your Portals'  />
+                    <SectionHeader heading='Technology Powering Your Portals' />
                 </Container>
                 <StaggeredLayout list={techStackListFinal} />
             </Section>
@@ -175,7 +177,7 @@ const CustomerVendorPortalsPage = () => {
                 </Container>
             </Section>
             <CallToAction />
-        </div>
+        </>
     )
 }
 

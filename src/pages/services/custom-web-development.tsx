@@ -1,11 +1,10 @@
 import SectionHeader from '@/components/shared/SectionHeader';
 
-import { IconArrowRight, IconCode,  IconDeviceIpadBolt, IconDeviceMobile,  IconShieldCheck, IconWorld} from '@tabler/icons-react';
+import { IconArrowRight, IconCode, IconDeviceIpadBolt, IconDeviceMobile, IconShieldCheck, IconWorld } from '@tabler/icons-react';
 import Container from '@/components/layout/Container';
 import Section from '@/components/layout/Section';
 import MainSection from '@/components/shared/main-section';
 import Features from '@/components/shared/features';
-import { useEffect } from 'react';
 
 import development from "@/assets/web-dev/development.png"
 import deployment from "@/assets/web-dev/deployment.png"
@@ -22,6 +21,7 @@ import Left from './LeftSection';
 import Right from './RightSection';
 import TechContainer from './TechContainer';
 import CallToAction from '@/components/shared/CallToAction';
+import ForSeo from '@/components/shared/ForSeo';
 
 
 
@@ -129,17 +129,14 @@ const customwebDevelopmentPage = () => {
         />
     )
 
-
-
-    useEffect(() => {
-        document.title = "Custom Web Development | Acurve"
-    }, [])
-
-
-
     const techStackListFinal = techStackList.map((stack) => <TechContainer children={stack.icon} glowClassName={stack.className} />)
     return (
-        <div>
+        <>
+            <ForSeo
+                title='Custom Web Development - Acurve'
+                description='Acurve builds custom websites tailored to your business needs, ensuring performance, scalability, and user experience.'
+                path='/service/custom-web-development'
+            />
             <MainSection text='Custom Web Development' leftSection={left} rightSection={right}
                 icon={<icons.digitalSolutions.customwebDevelopment.icon />} />
             <Section className='overflow-visible' id='process'>
@@ -163,7 +160,7 @@ const customwebDevelopmentPage = () => {
                 </Container>
             </Section>
             <CallToAction />
-        </div>
+        </>
     )
 }
 

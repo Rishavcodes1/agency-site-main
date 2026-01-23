@@ -6,7 +6,6 @@ import Section from '@/components/layout/Section';
 import MainSection from '@/components/shared/main-section';
 import Features from '@/components/shared/features';
 import CallToAction from '@/components/shared/CallToAction';
-import { useEffect } from 'react';
 import { icons } from '@/constants/icons';
 import Right from './RightSection';
 import Left from './LeftSection';
@@ -22,6 +21,7 @@ import phase6 from "@/assets/digital-marketing/phase6.webp"
 import TechContainer from './TechContainer';
 import { techStackList } from '@/constants/techstack/digital-marketing';
 import StaggeredLayout from '@/components/shared/staggered-layout';
+import ForSeo from '@/components/shared/ForSeo';
 
 const DigitalMarketingPage = () => {
     const processStepsList = [
@@ -142,15 +142,17 @@ const DigitalMarketingPage = () => {
     )
 
 
-    useEffect(() => {
-        document.title = "Digital Marketing | Acurve"
-    }, [])
 
     const techStackListFinal = techStackList.map((stack) => <TechContainer children={stack.icon} glowClassName={stack.className} />)
     return (
 
 
-        <div>
+        <>
+            <ForSeo
+                title='Digital Marketing - Acurve'
+                description='Acurve offers digital marketing services to increase visibility, engagement, and conversions online.'
+                path='/service/digital-marketing'
+            />
             <MainSection text='Digital Marketing' leftSection={left} rightSection={right} icon={<icons.digitalPresence.digitalMarketing.icon />} />
 
             <Section className='overflow-visible' id='process'>
@@ -176,7 +178,7 @@ const DigitalMarketingPage = () => {
                 </Container>
             </Section>
             <CallToAction />
-        </div>
+        </>
     )
 }
 
